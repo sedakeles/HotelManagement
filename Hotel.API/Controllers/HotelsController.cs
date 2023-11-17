@@ -56,8 +56,18 @@ namespace Hotel.API.Controllers
         [HttpGet("GetAllHotelAuthorized")]
         public async Task<IActionResult> GetAllHotelAuthorized()
         {
-            //var hotels = await _context.Hotels.Select().ToListAsync();
-            return Ok(await _context.Hotels.ToListAsync());
+            var hotels = await _context.Hotels.Select(hotel=>new HotelAuthorizedDto
+            {
+                
+                AuthorizedName=hotel.AuthorizedName,
+                AuthorizedLastName=hotel.AuthorizedLastName,
+                Company =hotel.Company,
+            }).ToListAsync();
+            if (hotels == null || hotels.Count == 0)
+            {
+                return NotFound("Hiç otel bulunamadı.");
+            }
+            return Ok(hotels);
         }
 
 
