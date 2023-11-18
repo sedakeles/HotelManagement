@@ -8,6 +8,7 @@ namespace Shared
 {
     public class RabbitMQSettingsConst
     {
-
+        public const string ReportHotelCreatedEventQueueName = "report-hotel-created-queue";
+        public const string ReportHotelDeletedEventQueueName = "report-hotel-deleted-queue";
     }
 }

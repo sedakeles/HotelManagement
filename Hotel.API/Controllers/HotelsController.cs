@@ -58,7 +58,6 @@ namespace Hotel.API.Controllers
         {
             var hotels = await _context.Hotels.Select(hotel=>new HotelAuthorizedDto
             {
-                
                 AuthorizedName=hotel.AuthorizedName,
                 AuthorizedLastName=hotel.AuthorizedLastName,
                 Company =hotel.Company,
@@ -92,10 +91,7 @@ namespace Hotel.API.Controllers
 
             var hotelCreatedEvent = new HotelCreatedEvent()
             {
-
                 Id = newHotel.Id,
-
-
             };
             hotelCreate.contactInformations.ForEach(item =>
             {
@@ -120,6 +116,11 @@ namespace Hotel.API.Controllers
             _context.Remove(hotel);
 
             await _context.SaveChangesAsync();
+            var hotelDeletedEvent = new HotelDeletedEvent()
+            {
+                Id = hotel.Id,
+            };
+            await _publishEndpoint.Publish(hotelDeletedEvent);
         }
 
 
